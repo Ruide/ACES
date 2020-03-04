@@ -140,10 +140,6 @@ void LTOCodeGenerator::initializeLTOPasses() {
   initializeMemCpyOptLegacyPassPass(R);
   initializeDCELegacyPassPass(R);
   initializeCFGSimplifyPassPass(R);
-  initializeHexboxAnalysisPass(R);
-  initializeHexboxApplicationPass(R);
-  initializeExperimentAnalysisPass(R);
-
 }
 
 void LTOCodeGenerator::setAsmUndefinedRefs(LTOModule *Mod) {

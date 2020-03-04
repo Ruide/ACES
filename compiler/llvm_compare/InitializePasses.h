@@ -357,10 +357,6 @@ void initializeWinEHPreparePass(PassRegistry&);
 void initializeWriteBitcodePassPass(PassRegistry &);
 void initializeWriteThinLTOBitcodePass(PassRegistry &);
 void initializeXRayInstrumentationPass(PassRegistry &);
-
-void initializeHexboxAnalysisPass(PassRegistry&);
-void initializeHexboxApplicationPass(PassRegistry&);
-void initializeExperimentAnalysisPass(PassRegistry&);
 }
 
 #endif

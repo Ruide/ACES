@@ -482,12 +482,6 @@ let isReturn = 1, isTerminator = 1, isBarrier = 1 in {
 let isCall = 1,
   Defs = [LR], Uses = [SP] in {
   // Also used for Thumb2
-  def HEXBOX_tBL  : tPseudoInst<(outs), (ins pred:$p, thumb_bl_target:$func, 
-		   i32imm:$md), 12, IIC_Br,
-                  [(ARMHexbox_Entry tglobaladdr:$func, tglobaladdr:$md)]>,
-             Requires<[IsThumb]>, Sched<[WriteBrL]> {
-  }
-
   def tBL  : TIx2<0b11110, 0b11, 1,
                   (outs), (ins pred:$p, thumb_bl_target:$func), IIC_Br,
                   "bl${p}\t$func",
@@ -524,13 +518,6 @@ let isCall = 1,
     bits<4> func;
     let Inst{6-3} = func;
     let Inst{2-0} = 0b000;
-  }
-
-  def HEXBOX_tBLXr : tPseudoInst<(outs), (ins pred:$p, GPR:$func, 
-		     i32imm:$md ),12, IIC_Br,
-	          [(ARMHexbox_Entry GPR:$func, tglobaladdr:$md)]>,
-	      Requires<[IsThumb]>,Sched<[WriteBrL]> { 
-  
   }
 
   // ARMv8-M Security Extensions
@@ -829,16 +816,6 @@ def tPOP : T1I<(outs), (ins pred:$p, reglist:$regs, variable_ops),
            T1Misc<{1,1,0,?,?,?,?}> {
   bits<16> regs;
   let Inst{8}   = regs{15};
-  let Inst{7-0} = regs{7-0};
-}
-
-let mayLoad = 1, Uses = [SP], Defs = [SP], hasExtraDefRegAllocReq = 1 in
-def tPOP_LR : T1I<(outs), (ins pred:$p, reglist:$regs, variable_ops),
-               IIC_iPop,
-               "pop${p}\t$regs", []>,
-           T1Misc<{1,1,0,?,?,?,?}> {
-  bits<16> regs;
-  let Inst{9}   = regs{14};
   let Inst{7-0} = regs{7-0};
 }
 

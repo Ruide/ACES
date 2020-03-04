@@ -95,7 +95,6 @@ public:
   }
 
 private:
-
   void CheckLazyArguments() const {
     if (hasLazyArguments())
       BuildLazyArguments();
@@ -134,8 +133,6 @@ public:
   /// isVarArg - Return true if this function takes a variable number of
   /// arguments.
   bool isVarArg() const;
-  void setIsHexboxEntry(bool V);
-  bool getIsHexboxEntry();
 
   bool isMaterializable() const;
   void setIsMaterializable(bool V);

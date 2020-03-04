@@ -26,8 +26,6 @@ def SDT_ARMSaveCallPC : SDTypeProfile<0, 1, []>;
 
 def SDT_ARMcall    : SDTypeProfile<0, -1, [SDTCisPtrTy<0>]>;
 
-def SDT_ARMHexbox_Entry    : SDTypeProfile<0, -1, [SDTCisPtrTy<0>, SDTCisPtrTy<1>] >;
-
 def SDT_ARMCMov    : SDTypeProfile<1, 3,
                                    [SDTCisSameAs<0, 1>, SDTCisSameAs<0, 2>,
                                     SDTCisVT<3, i32>]>;
@@ -110,10 +108,6 @@ def ARMcopystructbyval : SDNode<"ARMISD::COPY_STRUCT_BYVAL" ,
 def ARMcall          : SDNode<"ARMISD::CALL", SDT_ARMcall,
                               [SDNPHasChain, SDNPOptInGlue, SDNPOutGlue,
                                SDNPVariadic]>;
-def ARMHexbox_Entry  : SDNode<"ARMISD::HEXBOX_Entry", SDT_ARMHexbox_Entry,
-                              [SDNPHasChain, SDNPOptInGlue, SDNPOutGlue,
-                               SDNPVariadic]>;
-
 def ARMcall_pred    : SDNode<"ARMISD::CALL_PRED", SDT_ARMcall,
                               [SDNPHasChain, SDNPOptInGlue, SDNPOutGlue,
                                SDNPVariadic]>;

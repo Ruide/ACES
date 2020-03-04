@@ -439,7 +439,6 @@ void ARMPassConfig::addIRPasses() {
   // Match interleaved memory accesses to ldN/stN intrinsics.
   if (TM->getOptLevel() != CodeGenOpt::None)
     addPass(createInterleavedAccessPass(TM));
-
 }
 
 bool ARMPassConfig::addPreISel() {
@@ -467,7 +466,6 @@ bool ARMPassConfig::addPreISel() {
 
 bool ARMPassConfig::addInstSelector() {
   addPass(createARMISelDag(getARMTargetMachine(), getOptLevel()));
-  //addPass(createMCExperimentPrinterPass());
   return false;
 }
 
@@ -503,7 +501,6 @@ void ARMPassConfig::addPreRegAlloc() {
     if (!DisableA15SDOptimization)
       addPass(createA15SDOptimizerPass());
   }
-  //addPass(createMCExperimentPrinterPass());
 }
 
 void ARMPassConfig::addPreSched2() {
@@ -529,7 +526,6 @@ void ARMPassConfig::addPreSched2() {
     }));
   }
   addPass(createThumb2ITBlockPass());
-  //addPass(createMCExperimentPrinterPass());
 }
 
 void ARMPassConfig::addPreEmitPass() {
@@ -545,5 +541,4 @@ void ARMPassConfig::addPreEmitPass() {
     addPass(createARMOptimizeBarriersPass());
 
   addPass(createARMConstantIslandPass());
-  addPass(createMCExperimentPrinterPass());
 }

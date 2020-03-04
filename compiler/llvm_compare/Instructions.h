@@ -1356,7 +1356,6 @@ class CallInst : public Instruction,
 
   AttributeSet AttributeList; ///< parameter attributes for call
   FunctionType *FTy;
-  GlobalValue * hexboxMetadata = nullptr;
 
   CallInst(const CallInst &CI);
 
@@ -1526,12 +1525,6 @@ public:
   void mutateFunctionType(FunctionType *FTy) {
     mutateType(FTy->getReturnType());
     this->FTy = FTy;
-  }
-  void setHexboxMetadata(GlobalValue * GV){
-      this->hexboxMetadata = GV;
-  }
-  GlobalValue * getHexboxMetadata() const{
-      return this->hexboxMetadata;
   }
 
   // Note that 'musttail' implies 'tail'.

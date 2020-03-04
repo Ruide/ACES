@@ -76,11 +76,6 @@ struct GCOVOptions {
   // all of the function body's blocks.
   bool ExitBlockBeforeBody;
 };
-
-FunctionPass * createHexboxAnalysisPass();
-ModulePass * createHexboxApplicationPass();
-FunctionPass * createExperimentAnalysisPass();
-
 ModulePass *createGCOVProfilerPass(const GCOVOptions &Options =
                                    GCOVOptions::getDefault());
 

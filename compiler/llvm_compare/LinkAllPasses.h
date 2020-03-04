@@ -61,9 +61,6 @@ namespace {
       if (std::getenv("bar") != (char*) -1)
         return;
 
-      (void) llvm::createHexboxAnalysisPass();
-      (void) llvm::createHexboxApplicationPass();
-      (void) llvm::createExperimentAnalysisPass();
       (void) llvm::createAAEvalPass();
       (void) llvm::createAggressiveDCEPass();
       (void) llvm::createBitTrackingDCEPass();
@@ -206,8 +203,6 @@ namespace {
       (void) llvm::createMemDerefPrinter();
       (void) llvm::createFloat2IntPass();
       (void) llvm::createEliminateAvailableExternallyPass();
-
-
 
       (void)new llvm::IntervalPartition();
       (void)new llvm::ScalarEvolutionWrapperPass();

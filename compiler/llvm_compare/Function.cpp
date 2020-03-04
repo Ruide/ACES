@@ -217,7 +217,6 @@ bool Function::isMaterializable() const {
   return getGlobalObjectSubClassData() & (1 << IsMaterializableBit);
 }
 
-
 void Function::setIsMaterializable(bool V) {
   unsigned Mask = 1 << IsMaterializableBit;
   setGlobalObjectSubClassData((~Mask & getGlobalObjectSubClassData()) |
@@ -277,8 +276,6 @@ Function::Function(FunctionType *Ty, LinkageTypes Linkage, const Twine &name,
   // name is a valid intrinsic ID.
   if (IntID)
     setAttributes(Intrinsic::getAttributes(getContext(), IntID));
-
-  //isHexboxEntry = false;
 }
 
 Function::~Function() {

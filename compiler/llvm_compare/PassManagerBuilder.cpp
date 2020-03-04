@@ -863,9 +863,6 @@ void PassManagerBuilder::populateLTOPassManager(legacy::PassManagerBase &PM) {
   if (OptLevel != 0)
     addLateLTOOptimizationPasses(PM);
 
-  PM.add(createHexboxAnalysisPass());
-  PM.add(createHexboxApplicationPass());
-  PM.add(createExperimentAnalysisPass());
   if (VerifyOutput)
     PM.add(createVerifierPass());
 }

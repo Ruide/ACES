@@ -1206,7 +1206,6 @@ const char *ARMTargetLowering::getTargetNodeName(unsigned Opcode) const {
   case ARMISD::WrapperJT:     return "ARMISD::WrapperJT";
   case ARMISD::COPY_STRUCT_BYVAL: return "ARMISD::COPY_STRUCT_BYVAL";
   case ARMISD::CALL:          return "ARMISD::CALL";
-  case ARMISD::HEXBOX_Entry:  return "ARMISD::HEXBOX_Entry";
   case ARMISD::CALL_PRED:     return "ARMISD::CALL_PRED";
   case ARMISD::CALL_NOLINK:   return "ARMISD::CALL_NOLINK";
   case ARMISD::BRCOND:        return "ARMISD::BRCOND";
@@ -2015,7 +2014,6 @@ ARMTargetLowering::LowerCall(TargetLowering::CallLoweringInfo &CLI,
       CallOpc = ARMISD::CALL_NOLINK;
     else
       CallOpc = ARMISD::CALL;
-
   } else {
     if (!isDirect && !Subtarget->hasV5TOps())
       CallOpc = ARMISD::CALL_NOLINK;
@@ -2026,35 +2024,12 @@ ARMTargetLowering::LowerCall(TargetLowering::CallLoweringInfo &CLI,
       CallOpc = ARMISD::CALL_NOLINK;
     else
       CallOpc = isLocalARMFunc ? ARMISD::CALL_PRED : ARMISD::CALL;
-
   }
 
-  GlobalValue *Call_Metadata = nullptr;
-  if(CallOpc == ARMISD::CALL){
-      if(CLI.CS){
-        if (const CallInst *ci = dyn_cast<CallInst>(CLI.CS->getInstruction())){
-          //errs()<<"Checking for metadata\n";
-          Call_Metadata = ci->getHexboxMetadata();
-          if (Call_Metadata){
-              DEBUG(errs() << "Replacing Call with Hexbox_Entry\n");
-              DEBUG(errs() << "Function: ");
-              DEBUG(errs().write_escaped(ci->getParent()->getParent()->getName()) <<"\n");
-              DEBUG(ci->dump());
-
-
-              CallOpc = ARMISD::HEXBOX_Entry;
-          }
-        }
-      }
-  }
   std::vector<SDValue> Ops;
   Ops.push_back(Chain);
   Ops.push_back(Callee);
 
-  //Added to test Getting Hexbox_Entry added
-  if (Call_Metadata){
-    Ops.push_back(DAG.getTargetGlobalAddress(Call_Metadata,dl,PtrVt));
-     }
   // Add argument registers to the end of the list so that they are known live
   // into the call.
   for (unsigned i = 0, e = RegsToPass.size(); i != e; ++i)
@@ -2092,12 +2067,8 @@ ARMTargetLowering::LowerCall(TargetLowering::CallLoweringInfo &CLI,
   }
 
   // Returns a chain and a flag for retval copy to use.
-
-  //CLI.CS->getInstruction()->dump();
   Chain = DAG.getNode(CallOpc, dl, NodeTys, Ops);
-  //Chain.dump();
   InFlag = Chain.getValue(1);
-  // TODO:: I think I can add new inst here to do my stuff
 
   Chain = DAG.getCALLSEQ_END(Chain, DAG.getIntPtrConstant(NumBytes, dl, true),
                              DAG.getIntPtrConstant(0, dl, true), InFlag, dl);
@@ -2725,7 +2696,6 @@ ARMTargetLowering::LowerGlobalTLSAddressDarwin(SDValue Op,
   // normal AArch64 call node: r0 takes the address of the descriptor, and
   // returns the address of the variable in this thread.
   Chain = DAG.getCopyToReg(Chain, DL, ARM::R0, DescAddr, SDValue());
-  assert(true && "ARMISD::CALL not evaluated to see if needs Hexbox");
   Chain =
       DAG.getNode(ARMISD::CALL, DL, DAG.getVTList(MVT::Other, MVT::Glue),
                   Chain, FuncTLVGet, DAG.getRegister(ARM::R0, MVT::i32),
